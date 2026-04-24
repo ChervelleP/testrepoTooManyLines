@@ -1,4 +1,4 @@
-section .data
+section .
     msg1 db "Starting program...", 10
     len1 equ $ - msg1
 
@@ -10,7 +10,7 @@ section .data
 
     newline db 10
 
-section .bss
+section 
     buffer resb 2        ; for single digit + newline
 
 section .text
