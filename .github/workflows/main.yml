@@ -1,0 +1,36 @@
+name: Assembly Compile Check
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  compile:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Install NASM
+        run: sudo apt-get update && sudo apt-get install -y nasm
+
+      - name: Verify assembly file exists
+        run: |
+          test -f new.asm || {
+            echo "new.asm not found"
+            exit 1
+          }
+
+      - name: Compile assembly
+        run: |
+          nasm -f elf64 new.asm -o new.o
+
+      - name: Link executable
+        run: |
+          ld new.o -o program
+
+      - name: Run program
+        run: |
+          ./program
