@@ -1,75 +1,26 @@
 section .data
-    msg1 db "This file is supposed to fail.", 10
-    len1 equ $ - msg1
+    msg db "This will fail at link stage", 10
+    len equ $ - msg
 
 section .text
     global _start
 
 _start:
+
+    ; print message
     mov rax, 1
     mov rdi, 1
-    mov rsi, msg1
-    mov rdx, len1
+    mov rsi, msg
+    mov rdx, len
     syscall
 
-    ; intentional compile error below
-    this_is_not_a_valid_instruction
+    ; jump to label that does NOT exist
+    jmp missing_label
 
+    ; normal exit (never reached)
     mov rax, 60
     xor rdi, rdi
     syscall
 
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
+    ; padding to exceed 60 lines
     nop
