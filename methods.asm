@@ -1,25 +1,27 @@
-section .data
-    msg1 db "First line", 10
-    len1 equ $ - msg1
-
-    msg2 db "Second line", 10
-    len2 equ $ - msg2
+section .bss
+    buffer resb 2
 
 section .text
     global _start
 
 _start:
-    mov rax, 1
-    mov rdi, 1
-    mov rsi, msg1
-    mov rdx, len1
-    syscall
+    mov rcx, 1
+
+loop_start:
+    mov rax, rcx
+    add rax, '0'
+    mov [buffer], al
+    mov byte [buffer+1], 10
 
     mov rax, 1
     mov rdi, 1
-    mov rsi, msg2
-    mov rdx, len2
+    mov rsi, buffer
+    mov rdx, 2
     syscall
+
+    inc rcx
+    cmp rcx, 4
+    jne loop_start
 
     mov rax, 60
     xor rdi, rdi
